@@ -331,3 +331,12 @@ table(esmart.new.nohealthcare$Portfolio, esmart.new.nohealthcare$Achieved2) # Po
 
 CrossTable(esmart.new.nohealthcare$Industry, esmart.new.nohealthcare$Achieved2, expected = T, prop.r = F, prop.c = F, prop.t = F)
 CrossTable(esmart.new.nohealthcare$Portfolio, esmart.new.nohealthcare$Achieved2, expected = T, prop.r = F, prop.c = F, prop.t = F)
+
+##################################### Offering #######################################
+esmart <- read.csv("eSMART Aug 2013 to Sep 2014.csv", head=T, sep=",")
+esmart.random <- esmart[sample(nrow(esmart), 25e3), ]
+
+library(nnet)
+esmart$nnet <- nnet(as.factor(Achieved2) ~ .,
+                 data=esmart.random$dataset[crs$sample,c(crs$input, crs$target)],
+                 size=20, skip=TRUE, MaxNWts=10000, trace=FALSE, maxit=100)
